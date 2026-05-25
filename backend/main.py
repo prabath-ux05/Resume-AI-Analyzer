@@ -21,6 +21,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+allow_origins=[
+    "http://localhost:5173",
+    "https://resume-ai-analyzer-prabath-d-s-projects.vercel.app"
+]
+
 from database.postgres import init_db
 
 @app.on_event("startup")
