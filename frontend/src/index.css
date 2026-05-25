@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+/* ── Design Tokens (Tailwind v4) ── */
+@theme {
+  --color-bg: #09090B;
+  --color-surface: #111113;
+  --color-elevated: #1A1A1E;
+  --color-accent: #E26849;
+  --color-accent-hover: #D15A3E;
+  --color-gold: #D2A358;
+  --color-text: #F0EDE8;
+  --color-muted: #9CA3AF;
+  --color-dim: #6B7280;
+  --color-line: #1F1F23;
+  --color-line-hover: #2E2E34;
+  --color-ok: #10B981;
+  --color-warn: #F59E0B;
+  --color-err: #EF4444;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ── Selection ── */
+::selection {
+  background-color: rgba(226, 104, 73, 0.25);
+  color: var(--color-text);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-line); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-line-hover); }
+
+/* ── Focus ── */
+textarea:focus,
+input:focus,
+button:focus-visible {
+  outline: 2px solid rgba(226, 104, 73, 0.4);
+  outline-offset: 2px;
+}
+
+/* ── Responsive breakpoints ── */
+@media (max-width: 768px) {
+  body { font-size: 15px; }
+}

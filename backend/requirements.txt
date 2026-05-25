@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+python-multipart
+pymupdf
+python-docx
+spacy
+sentence-transformers
+scikit-learn
+pydantic
+pydantic-settings
+sqlalchemy
+asyncpg
+psycopg2-binary
+redis
+qdrant-client
+google-generativeai
+python-dotenv
