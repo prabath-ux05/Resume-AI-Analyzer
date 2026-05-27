@@ -6,19 +6,26 @@ from pydantic import BaseModel
 from utils.logger import logger
 from prompts.system.core import SYSTEM_PROMPT
 
-# Configure Gemini API
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
+# Configure Groq API
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+if GROQ_API_KEY:
+    genai.configure(api_key=GROQ_API_KEY)
 else:
-    logger.warning("GEMINI_API_KEY is not set. AI Orchestrator will fail.")
+    logger.warning("GROQ_API_KEY is not set. AI Orchestrator will fail.")
+
+# Configure Groq API
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+if GROQ_API_KEY:
+    genai.configure(api_key=GROQ_API_KEY)
+else:
+    logger.warning("GROQ_API_KEY is not set. AI Orchestrator will fail.")
 
 class AIOrchestrator:
     """
-    Service responsible for communicating with Gemini.
+    Service responsible for communicating with Groq.
     """
 
-    def __init__(self, model_name: str = "gemini-1.5-flash-8b"):
+    def __init__(self, model_name: str = "llama-3.1-8b-instant"):
         self.model_name = model_name
 
     def _get_model(self, temperature: float = 1.0) -> genai.GenerativeModel:
@@ -45,7 +52,7 @@ class AIOrchestrator:
         from pydantic import ValidationError
         from services.response_sanitizer import ResponseSanitizer
         
-        logger.info(f"Calling Gemini ({self.model_name}) for structured data extraction.")
+        logger.info(f"Calling Groq ({self.model_name}) for structured data extraction.")
         
         max_retries = 2
         attempt = 0

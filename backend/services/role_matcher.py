@@ -7,10 +7,10 @@ from typing import Dict, Any, List
 from utils.logger import logger
 from services.jd_matcher import get_flattened_resume_skills
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
+if GROQ_API_KEY:
+    genai.configure(api_key=GROQ_API_KEY)
 
 ROLE_MATCH_PROMPT = """You are an expert career advisor and recruiter. Analyze the following resume intelligence data and generate the best-fit job roles for this candidate.
 
@@ -128,8 +128,8 @@ async def generate_role_matches(intelligence_result: Dict[str, Any]) -> Dict[str
 
         summary_text = str(resume_summary.get("semantic_summary", "")) + " " + str(resume_summary.get("summary", ""))
 
-        if not GEMINI_API_KEY:
-            logger.error("GEMINI_API_KEY is not configured. Falling back to local matching.")
+        if not GROQ_API_KEY:
+            logger.error("GROQ_API_KEY is not configured. Falling back to local matching.")
             return _generate_fallback_matches(skills_list, summary_text)
 
         prompt = ROLE_MATCH_PROMPT.format(
@@ -143,11 +143,11 @@ async def generate_role_matches(intelligence_result: Dict[str, Any]) -> Dict[str
         )
 
         model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash-8b",
+            model_name="llama-3.1-8b-instant",
             generation_config=generation_config
         )
 
-        logger.info("Role Matcher - Gemini request started")
+        logger.info("Role Matcher - Groq request started")
 
         response = await asyncio.wait_for(
             model.generate_content_async(prompt),
@@ -155,7 +155,7 @@ async def generate_role_matches(intelligence_result: Dict[str, Any]) -> Dict[str
         )
 
         latency = time.time() - start_time
-        logger.info(f"Role Matcher - Gemini request completed successfully in {latency:.2f}s")
+        logger.info(f"Role Matcher - Groq request completed successfully in {latency:.2f}s")
 
         result = clean_json_response(response.text)
 
@@ -176,9 +176,9 @@ async def generate_role_matches(intelligence_result: Dict[str, Any]) -> Dict[str
         return _generate_fallback_matches(skills_list, summary_text)
 
     except asyncio.TimeoutError:
-        logger.error("Role Matcher - Gemini request timed out")
+        logger.error("Role Matcher - Groq request timed out")
         return _generate_fallback_matches(skills_list, summary_text)
 
     except Exception as e:
-        logger.error(f"Role Matcher - Gemini request failed: {e}")
+        logger.error(f"Role Matcher - Groq request failed: {e}")
         return _generate_fallback_matches(skills_list, summary_text)
