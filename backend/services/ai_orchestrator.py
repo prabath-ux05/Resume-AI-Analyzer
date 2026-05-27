@@ -60,7 +60,7 @@ class AIOrchestrator:
                 # Enforce a 20-second timeout to prevent indefinite hangs
                 response = await asyncio.wait_for(
                     model.generate_content_async(prompt), 
-                    timeout=20.0
+                    timeout=90.0
                 )
                 
                 latency = time.time() - start_time
