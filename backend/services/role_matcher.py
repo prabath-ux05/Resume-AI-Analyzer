@@ -28,9 +28,17 @@ class RoleMatchResponseSchema(BaseModel):
 
 
 ROLE_MATCH_PROMPT = """
-You are an expert career advisor and recruiter.
+You are an expert career advisor and technical recruiter with extremely strict standards.
 
 Analyze the following resume intelligence data and generate the best-fit job roles for this candidate.
+Do NOT inflate scores. Do not default to 85. Use the following strict rubric:
+- 90-100: Perfect fit. Candidate has all required skills and years of exact domain experience.
+- 70-89: Strong fit. Candidate matches core skills but lacks some niche requirements.
+- 50-69: Stretch role / Partial fit. Missing several core skills or lacking experience level.
+- 20-49: Weak fit. Barely qualifies, missing majority of essential skills.
+
+Generate a realistic, varied mix of roles: include 2 strong fits, 2 stretch roles, and 2 weak fits to give the candidate perspective.
+Compare the extracted skills against the actual industry requirements for each role.
 
 Resume Intelligence:
 {resume_json}
@@ -45,11 +53,11 @@ The JSON object MUST strictly adhere to this exact schema:
   "matches": [
     {{
       "role": "Job Title (string)",
-      "score": 85,
+      "score": <integer between 20 and 95, based strictly on the rubric>,
       "matching_skills": ["skill1", "skill2"],
-      "missing_skills": ["skill3"],
-      "reason": "Detailed string explaining the fit",
-      "recommendations": ["Actionable advice 1", "Actionable advice 2"]
+      "missing_skills": ["core_skill_missing1", "niche_skill_missing2"],
+      "reason": "Detailed string explaining exactly why they fit or fall short",
+      "recommendations": ["Actionable advice to bridge the gap"]
     }}
   ]
 }}
@@ -77,14 +85,14 @@ def clean_json_response(raw_text: str) -> Dict[str, Any]:
 
 
 def _get_static_fallback_roles(skills_list: List[str]) -> Dict[str, Any]:
-    """Provides a safe static fallback if the AI completely fails, avoiding 20/100 UI bugs."""
+    """Provides a safe static fallback if the AI completely fails."""
     return {
         "matches": [
             {
                 "role": "General Software Professional",
-                "score": 75,
+                "score": 50,  # Lowered to 50 to reflect neutral/uncertain fit, avoiding fake high scores
                 "matching_skills": skills_list[:5] if skills_list else ["General Tech"],
-                "missing_skills": ["Advanced Domain Specific Skills"],
+                "missing_skills": ["Advanced Domain Specific Skills", "Specialized Frameworks"],
                 "reason": "Based on a general profile match. High-precision AI matching was temporarily unavailable.",
                 "recommendations": ["Ensure your resume contains highly specific keywords", "Tailor your resume precisely to the Job Description"]
             }
@@ -155,12 +163,28 @@ async def generate_role_matches(
                 if not final_dict["matches"]:
                     raise ValueError("AI returned an empty matches list")
 
+                # Post-processing Calibration: Penalize scores dynamically based on missing vs matching skills
+                for match in final_dict["matches"]:
+                    num_matching = len(match.get("matching_skills", []))
+                    num_missing = len(match.get("missing_skills", []))
+                    total_skills = num_matching + num_missing
+                    
+                    if total_skills > 0:
+                        missing_ratio = num_missing / total_skills
+                        # Hard penalty: if a role is missing 50% of the skills, it loses up to 35 points natively
+                        penalty = int(missing_ratio * 35)
+                        match["score"] = max(10, match["score"] - penalty)
+                        
+                    # Cap to a realistic maximum to avoid artificial 100s unless perfectly tailored
+                    match["score"] = min(98, match["score"])
+
+                # Sort matches by the newly calibrated scores
                 final_dict["matches"].sort(
                     key=lambda x: x.get("score", 0),
                     reverse=True
                 )
 
-                logger.info("Role matcher succeeded")
+                logger.info("Role matcher succeeded with calibrated scores")
                 return final_dict
 
             except ValidationError as ve:
