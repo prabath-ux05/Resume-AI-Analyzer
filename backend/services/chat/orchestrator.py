@@ -128,6 +128,9 @@ class ChatOrchestrator:
         if not response_text:
             logger.warning(f"Groq API returned empty response for session {session_id}")
             response_text = "I'm sorry, I couldn't generate a response. Could you please rephrase?"
+            
+        # Markdown Sanitization (strip bold markup as requested globally)
+        response_text = response_text.replace("**", "").replace("__", "")
         
         # 4. Append new messages to our raw history for saving
         raw_history.append({"role": "user", "content": message})
@@ -193,6 +196,10 @@ class ChatOrchestrator:
             async for chunk in response_stream:
                 if chunk.choices[0].delta.content:
                     text_chunk = chunk.choices[0].delta.content
+                    
+                    # Markdown Sanitization (strip bold markup as requested globally)
+                    text_chunk = text_chunk.replace("**", "").replace("__", "")
+                    
                     full_response += text_chunk
                     yield text_chunk
                     

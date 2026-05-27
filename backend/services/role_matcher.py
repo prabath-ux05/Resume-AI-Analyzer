@@ -40,6 +40,13 @@ Do NOT inflate scores. Do not default to 85. Use the following strict rubric:
 Generate a realistic, varied mix of roles: include 2 strong fits, 2 stretch roles, and 2 weak fits to give the candidate perspective.
 Compare the extracted skills against the actual industry requirements for each role.
 
+FORMATTING RULES (CRITICAL):
+- DO NOT use markdown bold syntax like **Heading** or __Heading__.
+- Headings should always be plain clean text.
+- Bullet points using `-` or `*` are acceptable.
+- Keep responses minimal, professional, UI-friendly, and clean plain-text style.
+- Avoid excessive markdown formatting.
+
 Resume Intelligence:
 {resume_json}
 

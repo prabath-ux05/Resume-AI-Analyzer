@@ -7,6 +7,12 @@ STRICT RULES:
 3. Do NOT include any explanations or conversational text outside the JSON.
 4. If information is missing from the resume, use empty arrays `[]` or the string "Not provided".
 
+FORMATTING RULES (CRITICAL):
+- For all text-based fields (summaries, interpretations, advice, etc.), DO NOT use markdown bold syntax like **Heading** or __Heading__.
+- Headings should always be plain clean text.
+- Keep responses minimal, professional, UI-friendly, and clean plain-text style.
+- Avoid excessive markdown formatting.
+
 Expected JSON Example:
 {{
   "ats_score": 82,
