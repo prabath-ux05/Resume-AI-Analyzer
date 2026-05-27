@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import Card from '../components/Card'
 import Button from '../components/Button'
-import { analyzeResume } from '../services/api'
+import { analyzeResume, autoRoleMatch } from '../services/api'
 import { useResumeContext } from '../context/ResumeContext'
 
 const ALLOWED = [
@@ -64,13 +64,28 @@ export default function UploadPage() {
 
       // Set global state
       const { filename, data } = uploadRes
+      const fileHash = data?.file_hash || ''
       setAnalysisData(
         filename || file.name, 
         "Extracted text not available in V2 API", 
-        data?.file_hash || '', 
+        fileHash, 
         data?.skills || [], 
         data || {}
       )
+
+      setStatus('done')
+
+      // Trigger auto role match in the background
+      if (fileHash) {
+        try {
+          await autoRoleMatch(fileHash, false, false)
+        } catch (roleErr) {
+          console.error('Role Match Error after upload:', roleErr)
+          setStatus('error')
+          setError('Resume uploaded successfully, but role matching failed.')
+          return // Stop here to show the error message, do not redirect
+        }
+      }
 
       setTimeout(() => {
         navigate('/dashboard')
@@ -78,11 +93,13 @@ export default function UploadPage() {
     } catch (err) {
       console.error('Upload error:', err)
       setStatus('error')
+      
+      const isNetworkError = err?.message === 'Network Error' || err?.name === 'AxiosError'
+      
       setError(
-        err?.response?.data?.detail || 
-        err?.response?.data?.message || 
-        err?.message || 
-        'Upload failed. Please try again.'
+        isNetworkError 
+          ? 'Network Error during upload. The server might have succeeded but CORS blocked the response.' 
+          : (err?.response?.data?.detail || err?.response?.data?.message || err?.message || 'Upload failed. Please try again.')
       )
     }
   }
