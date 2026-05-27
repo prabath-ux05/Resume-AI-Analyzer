@@ -14,6 +14,7 @@ export async function analyzeResume(file) {
     const res = await api.post('/api/v1/analyze-resume', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
+    console.log('RAW UPLOAD RESPONSE:', res)
     return res.data
   } catch (error) {
     console.error('API Error [POST /api/v1/analyze-resume]:', error)

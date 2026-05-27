@@ -51,6 +51,7 @@ export default function UploadPage() {
       setProgress(15)
 
       const uploadRes = await analyzeResume(file)
+      console.log('UPLOAD SUCCESS PAYLOAD:', uploadRes)
       
       if (uploadRes?.status === 'error' || (uploadRes?.status && uploadRes?.status !== 'success')) {
         throw new Error(uploadRes?.message || uploadRes?.detail || 'Analysis failed on server.')
@@ -77,14 +78,18 @@ export default function UploadPage() {
 
       // Trigger auto role match in the background
       if (fileHash) {
+        console.log(`Triggering /job-match/auto for file_hash: ${fileHash}`)
         try {
           await autoRoleMatch(fileHash, false, false)
+          console.log('Role match triggered successfully.')
         } catch (roleErr) {
           console.error('Role Match Error after upload:', roleErr)
-          setStatus('error')
-          setError('Resume uploaded successfully, but role matching failed.')
-          return // Stop here to show the error message, do not redirect
+          // We don't want to block the user from seeing their analysis.
+          // The MatchPage will show the error when they navigate there.
+          console.warn('Resume uploaded successfully, but role matching failed.')
         }
+      } else {
+        console.warn('Skipping /job-match/auto: No valid file_hash found in response.')
       }
 
       setTimeout(() => {
