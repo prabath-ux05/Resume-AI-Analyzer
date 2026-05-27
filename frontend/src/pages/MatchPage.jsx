@@ -218,7 +218,7 @@ export default function MatchPage() {
     autoLoadAttempted.current = true
 
     // Check cache silently without triggering the main loading UI
-    autoRoleMatch(fileHash, false, true)
+    autoRoleMatch(fileHash, false, false)
       .then(res => {
         if (res.status === 'success' && res.matches?.length > 0) {
           setMatches(res.matches)
