@@ -85,26 +85,40 @@ def get_flattened_resume_skills(resume_intelligence: Dict) -> List[str]:
     """
     Safely and recursively extracts all string items from nested lists and dicts
     within the resume intelligence JSON to build a flattened list of skills.
+    Protects against circular references and oversized strings.
     """
     if not resume_intelligence:
         return []
 
     flattened = set()
+    seen = set()
 
     def safe_extract(node):
+        node_id = id(node)
+        if node_id in seen:
+            return
+        if isinstance(node, (dict, list)):
+            seen.add(node_id)
+            
         if isinstance(node, dict):
             for val in node.values():
                 safe_extract(val)
         elif isinstance(node, list):
             for item in node:
                 if isinstance(item, str):
-                    flattened.add(item)
+                    clean_item = item.strip()
+                    if clean_item and len(clean_item) < 60:  # Skill length sanity check
+                        flattened.add(clean_item)
                 elif isinstance(item, (dict, list)):
                     safe_extract(item)
 
-    # Optionally target just the skills dict if strictness is needed,
-    # but full traversal handles unstructured or fallback schemas safely.
-    safe_extract(resume_intelligence)
+    # Prefer extracting specifically from 'skills' to avoid noise (e.g., 'Senior' from experience_level)
+    skills_data = resume_intelligence.get("skills")
+    if skills_data and isinstance(skills_data, dict):
+        safe_extract(skills_data)
+    else:
+        # Fallback to full traversal if 'skills' object is missing
+        safe_extract(resume_intelligence)
 
     return list(flattened)
 

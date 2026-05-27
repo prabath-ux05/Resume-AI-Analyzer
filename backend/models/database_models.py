@@ -1,4 +1,5 @@
-from sqlalchemy import Column, String, JSON, DateTime, Integer
+from sqlalchemy import Column, String, DateTime, Integer, ForeignKey
+from sqlalchemy.dialects.postgresql import JSONB
 import datetime
 from database.postgres import Base
 
@@ -12,13 +13,13 @@ class ResumeAnalysis(Base):
     filename = Column(String, nullable=True)
     
     # Original parsed structure
-    parsed_json = Column(JSON, nullable=False)
+    parsed_json = Column(JSONB, nullable=False)
     
     # AI generated results
-    intelligence_result = Column(JSON, nullable=False)
+    intelligence_result = Column(JSONB, nullable=False)
     
-    # Generated role matches cache
-    role_matches = Column(JSON, nullable=True)
+    # DEPRECATED: Generated role matches cache (Use RoleMatchHistory instead)
+    role_matches = Column(JSONB, nullable=True)
     
     # Metadata
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
@@ -26,3 +27,19 @@ class ResumeAnalysis(Base):
     # Simple analytics
     tokens_used = Column(Integer, default=0)
     latency_seconds = Column(Integer, default=0)
+
+
+class RoleMatchHistory(Base):
+    __tablename__ = "role_match_history"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    file_hash = Column(String, ForeignKey("resume_analysis.file_hash"), index=True, nullable=False)
+    
+    # Store exactly what the AI generated
+    matches_json = Column(JSONB, nullable=False)
+    
+    # Model used (e.g., llama-3.1-8b-instant)
+    model_version = Column(String, nullable=False, default="llama-3.1-8b-instant")
+    
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+

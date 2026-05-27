@@ -179,30 +179,63 @@ async def auto_role_match_endpoint(request: AutoMatchRequest):
             if not record or not record.intelligence_result:
                 raise HTTPException(status_code=404, detail="No analyzed resume found. Please upload and analyze a resume first.")
 
-            # 1. Return cached results if they already exist AND we are not forcing regeneration
-            if not request.force_regenerate and getattr(record, 'role_matches', None) and isinstance(record.role_matches, dict) and "matches" in record.role_matches:
-                logger.info(f"Auto Role Match - Returning cached role matches for hash {request.file_hash}")
-                return {
-                    "status": "success",
-                    **record.role_matches
-                }
+            redis_client = None
+            try:
+                from database.redis import get_redis
+                redis_client = get_redis()
+            except ImportError:
+                logger.warning("Redis client not available in routes")
+
+            cache_key = f"role_match:v1:{request.file_hash}"
+
+            # 1. Check Redis for short-lived dynamic cache
+            if not request.force_regenerate and redis_client:
+                try:
+                    cached_matches = await redis_client.get(cache_key)
+                    if cached_matches:
+                        import json
+                        logger.info(f"Auto Role Match - Returning REDIS cached role matches for hash {request.file_hash}")
+                        return {
+                            "status": "success",
+                            **json.loads(cached_matches)
+                        }
+                except Exception as e:
+                    logger.warning(f"Redis cache read failed for role matches: {e}")
 
             # If only looking for cache and none exists, return specific status
             if request.only_cache:
                 return {"status": "not_found", "matches": []}
 
-            # 2. Otherwise generate new matches
+            # 2. Otherwise generate new dynamic matches via Groq
             intelligence = record.intelligence_result
             logger.info(f"Auto Role Match - Generating new matches for hash {request.file_hash}")
             role_matches = await generate_role_matches(intelligence)
 
-            # 3. Save to database for persistence
+            # 3. Save to Redis with 24-hour TTL (keeps reuploads fast for today, fresh tomorrow)
+            if redis_client:
+                try:
+                    import json
+                    await redis_client.set(
+                        cache_key,
+                        json.dumps(role_matches, default=str),
+                        ex=86400  # 24 hours
+                    )
+                except Exception as e:
+                    logger.warning(f"Failed to cache role matches in Redis: {e}")
+
+            # 4. Save to PostgreSQL strictly for historical analytics (Not used for cache hits anymore)
             try:
-                record.role_matches = role_matches
+                from models.database_models import RoleMatchHistory
+                new_history = RoleMatchHistory(
+                    file_hash=request.file_hash,
+                    matches_json=role_matches,
+                    model_version="llama-3.1-8b-instant"
+                )
+                db.add(new_history)
                 await db.commit()
-                logger.info(f"Auto Role Match - Successfully cached role matches for hash {request.file_hash}")
+                logger.info(f"Auto Role Match - Appended to DB history for hash {request.file_hash}")
             except Exception as e:
-                logger.warning(f"Auto Role Match - Failed to cache role matches: {e}")
+                logger.warning(f"Auto Role Match - Failed to save history to DB: {e}")
 
             return {
                 "status": "success",
