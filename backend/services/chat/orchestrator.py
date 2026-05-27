@@ -1,5 +1,6 @@
 import json
-import google.generativeai as genai
+import os
+from groq import AsyncGroq
 from services.context.resume_context import ResumeContextService
 from services.memory.redis_memory import RedisMemoryService
 from prompts.chat.assistant import ASSISTANT_SYSTEM_PROMPT
@@ -10,12 +11,13 @@ class ChatOrchestrator:
     Coordinates the Chat logic, pulling context from ResumeContextService
     and memory from RedisMemoryService before invoking Gemini.
     """
-    def __init__(self, model_name: str = "gemini-2.5-flash"):
+    def __init__(self, model_name: str = "llama-3.1-8b-instant"):
+
         self.model_name = model_name
-        self.model = genai.GenerativeModel(
-            model_name=self.model_name,
-            system_instruction=ASSISTANT_SYSTEM_PROMPT
-        )
+
+        self.client = AsyncGroq(
+            api_key=os.getenv("GROQ_API_KEY")
+    )
 
     async def _manage_token_window(self, raw_history: list) -> list:
         """
@@ -47,25 +49,64 @@ class ChatOrchestrator:
         )
         
         try:
-            # Use fast model for summary
-            summary_model = genai.GenerativeModel(model_name="gemini-2.5-flash")
-            summary_resp = await summary_model.generate_content_async(summary_prompt)
-            summary_text = summary_resp.text
-            
+
+            transcript_messages = [
+                {
+                    "role": "system",
+                    "content": (
+                        "You are an AI assistant memory manager. "
+                        "Summarize the conversation compactly. "
+                        "Focus only on career goals, preferences, "
+                        "topics discussed, and conclusions reached. "
+                        "Keep it short with 2-3 bullet points."
+                    )
+                },
+                {
+                    "role": "user",
+                    "content": transcript
+                }
+            ]
+
+            summary_response = await self.client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=transcript_messages,
+                temperature=0.3
+            )
+
+            summary_text = (
+                summary_response
+                .choices[0]
+                .message
+                .content
+            )
+
             summary_node = {
-                "role": "user", 
-                "parts": [f"SYSTEM NOTE (Hidden): The conversation prior to this point was summarized to save memory:\n{summary_text}"]
+                "role": "user",
+                "parts": [
+                    f"SYSTEM NOTE (Hidden): "
+                    f"The conversation prior to this point "
+                    f"was summarized to save memory:\n{summary_text}"
+                ]
             }
+
             ack_node = {
                 "role": "model",
-                "parts": ["I have logged the summary of our previous conversation."]
+                "parts": [
+                    "I have logged the summary "
+                    "of our previous conversation."
+                ]
             }
-            
-            # Reconstruct
-            return system_context + [summary_node, ack_node] + recent_history
+
+            return (
+                system_context
+                + [summary_node, ack_node]
+                + recent_history
+            )
+
         except Exception as e:
+
             logger.error(f"Failed to summarize history: {e}")
-            # Fallback: hard truncate but preserve context
+
             return system_context + recent_history
 
     async def process_message(self, message: str, file_hash: str, session_id: str) -> str:
@@ -101,17 +142,35 @@ class ChatOrchestrator:
             })
 
         # 4. Start Chat and Send Message
-        chat_session = self.model.start_chat(history=gemini_history)
-        response = await chat_session.send_message_async(message)
+        messages = []
+
+        for msg in gemini_history:
+            messages.append({
+                "role": msg["role"],
+                "content": msg["parts"][0]
+            })
+
+        messages.append({
+            "role": "user",
+            "content": message
+        })
+
+        response = await self.client.chat.completions.create(
+            model=self.model_name,
+            messages=messages,
+            temperature=0.5
+        )
+
+        response_text = response.choices[0].message.content
         
         # 5. Append new messages to our raw history for saving
         raw_history.append({"role": "user", "parts": [message]})
-        raw_history.append({"role": "model", "parts": [response.text]})
+        raw_history.append({"role": "model", "parts": [response_text]})
         
         # 6. Save back to Redis
         await RedisMemoryService.save_history(session_id, raw_history)
         
-        return response.text
+        return response_text
 
     async def stream_message(self, message: str, file_hash: str, session_id: str, is_interview: bool = False):
         """
