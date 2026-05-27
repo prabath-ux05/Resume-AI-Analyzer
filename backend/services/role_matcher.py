@@ -149,12 +149,7 @@ async def generate_role_matches(intelligence_result: Dict[str, Any]) -> Dict[str
             "semantic_summary": intelligence_result.get("semantic_summary", ""),
         }
         
-        summary_text = str(resume_summary.get("semantic_summary", "")) + " " + str(resume_summary.get("summary", ""))
-
-        logger.info("FORCED FALLBACK ROLE MATCH ACTIVE - NO GEMINI CALL")
-
-        return _generate_fallback_matches(skills_list, summary_text)
-        
+        summary_text = str(resume_summary.get("semantic_summary", "")) + " " + str(resume_summary.get("summary", ""))      
 
         if not GEMINI_API_KEY:
             logger.error("GEMINI_API_KEY is not configured. Falling back to local matching.")
