@@ -150,6 +150,9 @@ async def generate_role_matches(intelligence_result: Dict[str, Any]) -> Dict[str
         }
         
         summary_text = str(resume_summary.get("semantic_summary", "")) + " " + str(resume_summary.get("summary", ""))
+
+        logger.info("FORCED FALLBACK ROLE MATCH ACTIVE - NO GEMINI CALL")
+
         return _generate_fallback_matches(skills_list, summary_text)
         
 
