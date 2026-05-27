@@ -23,7 +23,6 @@ app.add_middleware(
         "http://localhost:3000",
         "https://resume-ai-analyzer-two.vercel.app",
         "https://resume-ai-analyzer-prabath-d-s-projects.vercel.app",
-        "https://resume-ai-analyzer-fdx0c16fc-prabath-d-s-projects.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -52,3 +51,7 @@ app.include_router(chat_router, prefix="/api/v1")
 @app.get("/")
 def root():
     return {"status": "backend running"}
+
+@app.head("/")
+def head_root():
+    return {"status": "ok"}
