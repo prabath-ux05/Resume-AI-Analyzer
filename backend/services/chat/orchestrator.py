@@ -112,7 +112,7 @@ class ChatOrchestrator:
         raw_history = await self._manage_token_window(raw_history)
         
         # 3. Start Chat and Send Message
-        messages = list(raw_history)
+        messages = [{"role": "system", "content": ASSISTANT_SYSTEM_PROMPT}] + list(raw_history)
         messages.append({
             "role": "user",
             "content": message
@@ -125,6 +125,9 @@ class ChatOrchestrator:
         )
 
         response_text = response.choices[0].message.content
+        if not response_text:
+            logger.warning(f"Groq API returned empty response for session {session_id}")
+            response_text = "I'm sorry, I couldn't generate a response. Could you please rephrase?"
         
         # 4. Append new messages to our raw history for saving
         raw_history.append({"role": "user", "content": message})
@@ -165,7 +168,7 @@ class ChatOrchestrator:
         raw_history = await self._manage_token_window(raw_history)
         
         # 3. Format history for Groq API
-        messages = list(raw_history)
+        messages = [{"role": "system", "content": ASSISTANT_SYSTEM_PROMPT}] + list(raw_history)
         messages.append({
             "role": "user",
             "content": message
@@ -203,10 +206,16 @@ class ChatOrchestrator:
             error_msg = "\n\n⚠️ **Service Disconnected**: The AI service encountered an unexpected error. Please try again."
             full_response += error_msg
             yield error_msg
+            
+        if not full_response:
+            logger.warning(f"Groq API returned empty stream for session {session_id}")
+            error_msg = "I'm sorry, I couldn't generate a response. Could you please rephrase?"
+            full_response = error_msg
+            yield error_msg
         
         # 5. Append new messages to our raw history for saving
         raw_history.append({"role": "user", "content": message})
         raw_history.append({"role": "assistant", "content": full_response})
         
         # 6. Save back to Redis
-        await RedisMemoryService.save_history(session_id, raw_history)history)
+        await RedisMemoryService.save_history(session_id, raw_history)
