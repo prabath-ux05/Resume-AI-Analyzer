@@ -10,33 +10,45 @@ export async function analyzeResume(file) {
   const formData = new FormData()
   formData.append('file', file)
 
-  const res = await api.post('/api/v1/analyze-resume', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  })
-
-  return res.data
+  try {
+    const res = await api.post('/api/v1/analyze-resume', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    return res.data
+  } catch (error) {
+    console.error('API Error [POST /api/v1/analyze-resume]:', error)
+    throw error
+  }
 }
 
 export async function matchJob(resumeText, jobDescription, fileHash) {
-  const res = await api.post('/api/v1/job-match', {
-    resume_text: resumeText,
-    job_description: jobDescription,
-    file_hash: fileHash,
-  })
-
-  return res.data
+  try {
+    const res = await api.post('/api/v1/job-match', {
+      resume_text: resumeText,
+      job_description: jobDescription,
+      file_hash: fileHash,
+    })
+    return res.data
+  } catch (error) {
+    console.error('API Error [POST /api/v1/job-match]:', error)
+    throw error
+  }
 }
 
 export async function autoRoleMatch(fileHash, forceRegenerate = false, onlyCache = false) {
-  const res = await api.post('/api/v1/job-match/auto', {
-    file_hash: fileHash,
-    force_regenerate: forceRegenerate,
-    only_cache: onlyCache,
-  }, {
-    timeout: 90000
-  })
-
-  return res.data
+  try {
+    const res = await api.post('/api/v1/job-match/auto', {
+      file_hash: fileHash,
+      force_regenerate: forceRegenerate,
+      only_cache: onlyCache,
+    }, {
+      timeout: 90000
+    })
+    return res.data
+  } catch (error) {
+    console.error('API Error [POST /api/v1/job-match/auto]:', error)
+    throw error
+  }
 }
 
 export async function sendStreamMessage(message, fileHash, sessionId, isInterview = false) {
