@@ -49,9 +49,10 @@ app.include_router(chat_router, prefix="/api/v1")
 
 
 @app.get("/")
-def root():
+async def root():
     return {"status": "backend running"}
 
+
 @app.head("/")
-def head_root():
-    return {"status": "ok"}
+async def head_root():
+    return None
