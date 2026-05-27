@@ -18,7 +18,7 @@ class AIOrchestrator:
     Service responsible for communicating with Gemini.
     """
 
-    def __init__(self, model_name: str = "gemini-1.5-flash"):
+    def __init__(self, model_name: str = "gemini-2.5-flash"):
         self.model_name = model_name
 
     def _get_model(self, temperature: float = 1.0) -> genai.GenerativeModel:
@@ -60,7 +60,7 @@ class AIOrchestrator:
                 # Enforce a 20-second timeout to prevent indefinite hangs
                 response = await asyncio.wait_for(
                     model.generate_content_async(prompt), 
-                    timeout=40.0
+                    timeout=90.0
                 )
                 
                 latency = time.time() - start_time
