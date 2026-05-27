@@ -150,6 +150,8 @@ async def generate_role_matches(intelligence_result: Dict[str, Any]) -> Dict[str
         }
         
         summary_text = str(resume_summary.get("semantic_summary", "")) + " " + str(resume_summary.get("summary", ""))
+        return _generate_fallback_matches(skills_list, summary_text)
+        
 
         if not GEMINI_API_KEY:
             logger.error("GEMINI_API_KEY is not configured. Falling back to local matching.")
