@@ -189,7 +189,7 @@ export default function AssistantPage() {
     fetchChatHistory(sessionId)
       .then(data => {
         if (data.messages?.length > 0) {
-          setMessages(data.messages.map(m => ({ role: m.role, content: m.parts[0] })))
+          setMessages(data.messages.map(m => ({ role: m.role, content: m.content })))
         }
       })
       .catch(() => {}) // silently fail — fresh start
@@ -201,7 +201,7 @@ export default function AssistantPage() {
 
     setInput('')
     const userMsg = { role: 'user', content: userMessage }
-    const aiMsg = { role: 'model', content: '' }
+    const aiMsg = { role: 'assistant', content: '' }
 
     setMessages(prev => [...prev, userMsg, aiMsg])
     const newIdx = messages.length + 1
@@ -223,7 +223,7 @@ export default function AssistantPage() {
         setMessages(prev => {
           const next = [...prev]
           next[next.length - 1] = { 
-            role: 'model', 
+            role: 'assistant', 
             content: fullText,
             isError: isErrorStream
           }
@@ -234,7 +234,7 @@ export default function AssistantPage() {
       setMessages(prev => {
         const next = [...prev]
         next[next.length - 1] = {
-          role: 'model',
+          role: 'assistant',
           content: 'Something went wrong. Please try again.',
           isError: true
         }

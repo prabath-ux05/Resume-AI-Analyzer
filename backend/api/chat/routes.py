@@ -56,8 +56,8 @@ async def get_history(session_id: str):
         # Filter out the hidden context messages before returning to frontend
         filtered_history = [
             msg for msg in history 
-            if not (msg["role"] == "user" and "HIDDEN SYSTEM CONTEXT" in msg["parts"][0])
-            and not (msg["role"] == "model" and "Understood. I will use this resume context" in msg["parts"][0])
+            if not (msg["role"] == "user" and "HIDDEN SYSTEM CONTEXT" in msg.get("content", ""))
+            and not (msg["role"] == "assistant" and "Understood. I will use this resume context" in msg.get("content", ""))
         ]
         return HistoryResponse(session_id=session_id, messages=filtered_history)
     except Exception as e:
