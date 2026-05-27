@@ -1,4 +1,4 @@
-# Elevora AI 🚀
+# AscendAI 🚀
 
 ### AI-Powered Resume Analysis & Career Guidance Platform
 
@@ -14,6 +14,14 @@ The platform combines:
 * Cloud Deployment
 
 to simulate a modern AI recruitment ecosystem.
+
+---
+
+# 🎥 Demo Video
+
+Project Demo Video:
+
+[Watch Demo Video](https://drive.google.com/file/d/1XCcLUeaCTMuE9guhqpMFTcCroiYc9brG/view?usp=drive_link)
 
 ---
 
