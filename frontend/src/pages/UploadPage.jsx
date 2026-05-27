@@ -51,6 +51,11 @@ export default function UploadPage() {
       setProgress(15)
 
       const uploadRes = await analyzeResume(file)
+      
+      if (uploadRes?.status === 'error' || (uploadRes?.status && uploadRes?.status !== 'success')) {
+        throw new Error(uploadRes?.message || uploadRes?.detail || 'Analysis failed on server.')
+      }
+      
       setProgress(60)
       setStatus('processing')
 
@@ -59,14 +64,26 @@ export default function UploadPage() {
 
       // Set global state
       const { filename, data } = uploadRes
-      setAnalysisData(filename, "Extracted text not available in V2 API", data.file_hash, data.skills, data)
+      setAnalysisData(
+        filename || file.name, 
+        "Extracted text not available in V2 API", 
+        data?.file_hash || '', 
+        data?.skills || [], 
+        data || {}
+      )
 
       setTimeout(() => {
         navigate('/dashboard')
       }, 1200)
     } catch (err) {
+      console.error('Upload error:', err)
       setStatus('error')
-      setError(err?.response?.data?.detail || 'Upload failed. Please try again.')
+      setError(
+        err?.response?.data?.detail || 
+        err?.response?.data?.message || 
+        err?.message || 
+        'Upload failed. Please try again.'
+      )
     }
   }
 
