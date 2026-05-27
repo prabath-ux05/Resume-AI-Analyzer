@@ -46,7 +46,7 @@ class AIOrchestrator:
                 response = await asyncio.wait_for(
                     self.client.chat.completions.create(
                         model=self.model_name,
-                        temperature=0.3,
+                        temperature=0.1,
                         response_format={"type": "json_object"},
                         messages=[
                             {

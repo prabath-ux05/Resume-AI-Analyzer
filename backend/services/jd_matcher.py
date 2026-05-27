@@ -82,19 +82,29 @@ def extract_normalized_skills_from_text(text: str) -> Set[str]:
     return set(normalize_skill(s) for s in skills if s)
 
 def get_flattened_resume_skills(resume_intelligence: Dict) -> List[str]:
+    """
+    Safely and recursively extracts all string items from nested lists and dicts
+    within the resume intelligence JSON to build a flattened list of skills.
+    """
     if not resume_intelligence:
         return []
 
     flattened = set()
 
-    for value in resume_intelligence.values():
-        if isinstance(value, dict):
-            for skills in value.values():
-                if isinstance(skills, list):
-                    flattened.update(skills)
+    def safe_extract(node):
+        if isinstance(node, dict):
+            for val in node.values():
+                safe_extract(val)
+        elif isinstance(node, list):
+            for item in node:
+                if isinstance(item, str):
+                    flattened.add(item)
+                elif isinstance(item, (dict, list)):
+                    safe_extract(item)
 
-        elif isinstance(value, list):
-            flattened.update(value)
+    # Optionally target just the skills dict if strictness is needed,
+    # but full traversal handles unstructured or fallback schemas safely.
+    safe_extract(resume_intelligence)
 
     return list(flattened)
 

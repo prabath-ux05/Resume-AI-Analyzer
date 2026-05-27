@@ -150,14 +150,20 @@ class ResumeIntelligenceService:
         result = intelligence.model_dump()
 
         logger.info(
-            f"DEBUG - Extracted Skills: "
-            f"{result.get('skills', {})}"
-        )
-
-        logger.info(
             f"DEBUG - ATS Score: "
             f"{result.get('ats_score')}"
         )
+
+        # Advanced debugging strategy for nested payloads (Production safe)
+        try:
+            summary_payload = {
+                k: (v if not isinstance(v, (list, dict)) else f"<{type(v).__name__} size={len(v)}>")
+                for k, v in result.items()
+            }
+            logger.info(f"AI Extraction Profile Summary: {json.dumps(summary_payload)}")
+            logger.debug(f"Full AI Payload:\n{json.dumps(result, indent=2, default=str)}")
+        except Exception as e:
+            logger.warning(f"Could not serialize debug payload: {e}")
 
         # ==================================================
         # 7. Redis Cache Save
