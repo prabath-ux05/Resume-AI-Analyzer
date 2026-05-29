@@ -1,57 +1,99 @@
-# 🚀 AscendAI - Resume Intelligence & Career Guidance Platform
+# 🚀 AscendAI — Resume Intelligence & Career Guidance Platform
 
-AscendAI is a full-stack AI-powered resume intelligence platform that analyzes resumes, generates ATS scores, extracts technical skills, performs AI-based role matching, and provides resume-aware career guidance through an interactive AI assistant.
-
-The project is designed as a production-oriented engineering system using a React frontend, FastAPI backend, Groq-powered LLM orchestration, PostgreSQL persistence, Redis caching, and Qdrant-based vector infrastructure.
+![Python](https://img.shields.io/badge/Python-3.11+-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
+![React](https://img.shields.io/badge/React-Frontend-61DAFB)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-blue)
+![Redis](https://img.shields.io/badge/Redis-Cache-red)
+![Qdrant](https://img.shields.io/badge/Qdrant-VectorDB-purple)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED)
+![Vercel](https://img.shields.io/badge/Vercel-Frontend-black)
+![Render](https://img.shields.io/badge/Render-Backend-46E3B7)
 
 ---
 
-## 🧠 Project Overview
+## 📌 Overview
 
-AscendAI helps users understand how their resume performs from a recruiter and ATS perspective.
+AscendAI is a full-stack AI-powered Resume Intelligence Platform designed to analyze resumes, generate ATS scores, perform semantic role matching, and provide personalized career guidance through an AI assistant.
 
-The platform supports:
+The platform transforms unstructured resume documents into structured intelligence using modern AI orchestration techniques, caching systems, vector retrieval infrastructure, and cloud-native deployment practices.
 
-* Resume upload and parsing
-* ATS score generation
-* Skill extraction
-* Resume semantic intelligence
-* AI role matching
-* Job description matching
-* Recruiter-style feedback
-* Career guidance chatbot
-* Interview preparation assistant
-* Resume-aware conversational memory
+Unlike traditional resume scanners that rely solely on keyword matching, AscendAI combines semantic analysis, role suitability assessment, recruiter-style feedback, and conversational career guidance to help candidates improve employability and interview readiness.
+
+---
+
+## ✨ Core Features
+
+### 📄 Resume Intelligence
+
+- ATS Score Generation
+- Resume Quality Assessment
+- Recruiter-style Feedback
+- Skill Extraction
+- Resume Improvement Suggestions
+
+### 🎯 AI Role Matching
+
+- Resume-to-Role Alignment
+- Career Suitability Analysis
+- Missing Skill Detection
+- Role Recommendation Engine
+
+### 💬 Career Guidance Assistant
+
+- Resume-aware AI Chat
+- Career Roadmaps
+- Interview Preparation
+- Skill Development Suggestions
+- Personalized Career Guidance
+
+### ⚡ Platform Engineering
+
+- Redis-based Caching
+- AI Response Stabilization
+- Retry & Fallback Mechanisms
+- Resume Hashing
+- Cloud-native Deployment
+- Semantic Retrieval Infrastructure
 
 ---
 
 ## 🏗️ System Architecture
 
 ```text
-User
- │
- ▼
-React Frontend
- │
- ▼
-FastAPI Backend
- │
- ├── Resume Parser
- ├── ATS Scoring Engine
- ├── AI Orchestrator
- ├── Role Matching Service
- ├── Chat Assistant
- ├── Redis Cache
- ├── PostgreSQL Database
- └── Qdrant Vector Store
+                         ┌─────────────────────┐
+                         │      React UI       │
+                         │ Vite + Tailwind CSS │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │    FastAPI API      │
+                         │ Application Layer   │
+                         └──────────┬──────────┘
+                                    │
+        ┌───────────────────────────┼───────────────────────────┐
+        ▼                           ▼                           ▼
+
+ ┌───────────────┐        ┌────────────────┐       ┌─────────────────┐
+ │ Redis Cache   │        │ AI Orchestrator│       │ PostgreSQL DB   │
+ │ Response Cache│        │ Groq + Llama   │       │ Supabase        │
+ └───────────────┘        └────────────────┘       └─────────────────┘
+                                    │
+                                    ▼
+                          ┌─────────────────┐
+                          │ Qdrant VectorDB │
+                          │ Semantic Search │
+                          └─────────────────┘
 ```
 
 ---
 
 <details>
-<summary><h2>⚙️ Tech Stack</h2></summary>
+<summary><strong>⚙️ Tech Stack</strong></summary>
 
 ### 🎨 Frontend
+
 - React.js
 - Vite
 - Tailwind CSS
@@ -61,22 +103,25 @@ FastAPI Backend
 - Recharts
 
 ### 🧩 Backend
+
 - FastAPI
 - Python
 - Async APIs
-- Pydantic
+- Pydantic Validation
 - SQLAlchemy
 - PyMuPDF
 - python-docx
 
 ### 🤖 AI & NLP
+
 - Groq API
 - Llama 3.1 8B Instant
 - Prompt Engineering
-- Resume Semantic Analysis
 - Structured JSON Extraction
+- Resume Semantic Analysis
 
 ### 🗄️ Database & Infrastructure
+
 - Supabase PostgreSQL
 - Redis Cache
 - Qdrant Vector Database
@@ -84,6 +129,7 @@ FastAPI Backend
 - Docker Compose
 
 ### ☁️ Cloud & Deployment
+
 - Vercel
 - Render
 - UptimeRobot
@@ -92,79 +138,65 @@ FastAPI Backend
 
 ---
 
-## 🔁 Technical Workflow
+## 🔄 Technical Workflow
 
 ```text
 Resume Upload
-    ↓
-File Validation
-    ↓
-Text Extraction
-    ↓
+      │
+      ▼
+Resume Parsing
+      │
+      ▼
 Resume Hashing
-    ↓
+      │
+      ▼
 Redis Cache Lookup
-    ↓
-AI Resume Intelligence Pipeline
-    ↓
-ATS Score Generation
-    ↓
-Skill Extraction
-    ↓
-Role Matching
-    ↓
+      │
+      ▼
+AI Resume Analysis
+      │
+      ├── ATS Scoring
+      ├── Skill Extraction
+      ├── Recruiter Feedback
+      ├── Semantic Analysis
+      └── Role Matching
+      │
+      ▼
 Database Persistence
-    ↓
-Frontend Result Display
+      │
+      ▼
+Frontend Visualization
 ```
 
 ---
 
-## 📊 Core Features
+## 🖼️ Platform Preview
 
-### 📝 Resume ATS Analysis
+### Dashboard & Resume Intelligence
 
-AscendAI evaluates the resume based on structure, skills, projects, experience, keywords, readability, and recruiter relevance.
+<p align="center">
+  <img src="docs/dashboard.png" width="48%" />
+  <img src="docs/resume-analysis.png" width="48%" />
+</p>
 
-### 🧠 Resume Semantic Intelligence
+### Role Matching & Career Guidance
 
-The system extracts deeper resume meaning such as candidate domain, project strength, technical depth, career alignment, and hiring confidence.
-
-### 🎯 AI Role Matching
-
-The platform generates realistic role matches using resume intelligence, extracted skills, missing skills, and recruiter-style reasoning.
-
-### 💬 Career Guidance AI Assistant
-
-Users can chat with an AI assistant that understands the uploaded resume and gives career guidance, improvement suggestions, and interview preparation support.
-
-### 🧪 Job Description Matching
-
-The project includes a JD matcher that compares resume text with job descriptions using TF-IDF and cosine similarity.
-
-### ⚡ Redis Caching
-
-Redis is used to cache resume analysis and reduce repeated AI processing for the same uploaded resume.
-
-### 🧬 Vector Database Support
-
-Qdrant is configured as the vector database layer for future semantic retrieval and resume-aware search workflows.
+<p align="center">
+  <img src="docs/role-matching.png" width="48%" />
+  <img src="docs/career-guidance.png" width="48%" />
+</p>
 
 ---
 
 <details>
-<summary><h2>📁 Project Folder Structure</h2></summary>
+<summary><strong>📁 Project Structure</strong></summary>
 
 ```text
 Resume-AI-Platform/
 │
 ├── backend/
 │   ├── api/
-│   │   └── chat/
 │   ├── database/
-│   │   ├── postgres.py
-│   │   ├── qdrant.py
-│   │   └── redis.py
 │   ├── models/
 │   ├── parsers/
 │   ├── prompts/
@@ -174,20 +206,16 @@ Resume-AI-Platform/
 │   ├── uploads/
 │   ├── utils/
 │   ├── main.py
-│   ├── Dockerfile
 │   └── requirements.txt
 │
 ├── frontend/
 │   ├── public/
 │   ├── src/
 │   │   ├── components/
-│   │   ├── context/
-│   │   ├── layouts/
 │   │   ├── pages/
 │   │   ├── routes/
-│   │   └── services/
-│   ├── package.json
-│   └── vite.config.js
+│   │   ├── services/
+│   │   └── context/
 │
 ├── docs/
 │   ├── dashboard.png
@@ -199,85 +227,170 @@ Resume-AI-Platform/
 ├── vercel.json
 └── README.md
 ```
----
+
+</details>
+
 ---
 
 ## 🔌 API Architecture
 
-### Resume APIs
-
 ```text
+Client
+  │
+  ▼
+FastAPI Router
+  │
+  ▼
+Service Layer
+  │
+  ▼
+AI Orchestrator
+  │
+  ▼
+Redis / PostgreSQL / Qdrant
+```
+
+### Core Endpoints
+
+```http
 POST   /api/v1/analyze-resume
-GET    /api/v1/history
-GET    /api/v1/{file_hash}
 POST   /api/v1/job-match
 POST   /api/v1/job-match/auto
-```
 
-### Chat APIs
-
-```text
 POST   /api/v1/chat/message
 POST   /api/v1/chat/interview
+
+GET    /api/v1/history
 GET    /api/v1/chat/history
-DELETE /api/v1/chat/history
 ```
 
 ---
 
-## 🖼️ Screenshots
+## 📊 ATS Analysis Pipeline
 
-### 🏠 Dashboard
+The ATS engine evaluates resumes through a structured processing workflow.
 
-![Dashboard](docs/dashboard.png)
+### Pipeline Stages
 
----
+1. Resume Parsing
+2. Data Normalization
+3. Skill Extraction
+4. Keyword Relevance Analysis
+5. Experience Evaluation
+6. ATS Score Generation
+7. Recruiter Feedback Generation
 
-### 📄 Resume Analysis
+### Objectives
 
-![Resume Analysis](docs/resume-analysis.png)
-
----
-
-### 🎯 Role Matching
-
-![Role Matching](docs/role-matching.png)
-
----
-
-### 💬 Career Assistant
-
-![Career Assistant](docs/career-guidance.png)
+- Identify missing keywords
+- Evaluate role alignment
+- Assess resume completeness
+- Generate actionable recommendations
 
 ---
 
-## 🚀 Deployment Architecture
+## 🧠 Resume Semantic Intelligence
+
+Traditional ATS systems focus primarily on keyword matching.
+
+AscendAI introduces semantic intelligence by evaluating:
+
+- Technical Skills
+- Project Relevance
+- Career Trajectory
+- Domain Alignment
+- Experience Context
+
+This enables deeper role matching beyond exact keyword occurrences.
+
+---
+
+## ⚡ Redis Caching Layer
+
+Redis is used to reduce repeated AI processing and improve response performance.
+
+### Cached Components
+
+- Resume Analysis Results
+- ATS Scores
+- Role Matching Outputs
+- AI Guidance Responses
+
+### Benefits
+
+- Reduced API Calls
+- Lower Latency
+- Faster User Experience
+- Increased System Throughput
+
+---
+
+## 🧬 Vector Database Layer
+
+Qdrant serves as the semantic retrieval infrastructure.
 
 ```text
-Frontend
-React + Vite
-Deployed on Vercel
-        ↓
-Backend API
-FastAPI
-Deployed on Render
-        ↓
-External Services
-Supabase PostgreSQL
-Redis
-Qdrant
-Groq API
+Resume Content
+      │
+      ▼
+Embedding Generation
+      │
+      ▼
+Vector Storage
+      │
+      ▼
+Similarity Search
+      │
+      ▼
+Role Matching
+```
+
+### Benefits
+
+- Semantic Search
+- Similarity Retrieval
+- Future RAG Integration
+- Enhanced Role Recommendations
+
+---
+
+## ☁️ Deployment Architecture
+
+```text
+                    Internet
+                        │
+                        ▼
+
+               ┌────────────────┐
+               │     Vercel     │
+               │ Frontend Layer │
+               └───────┬────────┘
+                       │
+                       ▼
+
+               ┌────────────────┐
+               │     Render     │
+               │ FastAPI Backend│
+               └───────┬────────┘
+                       │
+      ┌────────────────┼─────────────────┐
+      ▼                ▼                 ▼
+
+ PostgreSQL        Redis Cache       Qdrant DB
+  Supabase
 ```
 
 ---
 
-## 🧪 Local Installation
+## 🚀 Local Development Setup
 
 ### Backend
 
 ```bash
 cd backend
+
 pip install -r requirements.txt
+
 uvicorn main:app --reload
 ```
 
@@ -285,8 +398,16 @@ uvicorn main:app --reload
 
 ```bash
 cd frontend
+
 npm install
+
 npm run dev
+```
+
+### Docker
+
+```bash
+docker-compose up --build
 ```
 
 ---
@@ -297,9 +418,13 @@ npm run dev
 
 ```env
 GROQ_API_KEY=
+
 DATABASE_URL=
+
 REDIS_URL=
+
 QDRANT_URL=
+QDRANT_API_KEY=
 ```
 
 ### Frontend
@@ -310,54 +435,58 @@ VITE_API_URL=
 
 ---
 
-## 🐳 Docker Setup
-
-```bash
-docker-compose up --build
-```
-
-Recommended cleanup before production:
-
-* Rename Docker containers from `elevora_*` to `ascendai_*`
-* Replace `GEMINI_API_KEY` with `GROQ_API_KEY`
-* Update database name from `elevora` to `ascendai`
-
----
-
 ## 🛠️ Engineering Highlights
 
-* Async FastAPI backend
-* Resume hashing for deduplication
-* PostgreSQL persistence
-* Redis-based cache layer
-* Qdrant vector database integration
-* AI response sanitization
-* Structured JSON validation
-* Retry and fallback handling
-* Resume-aware AI chat assistant
-* Job description similarity matching
-* Modular service-based backend structure
+- Async FastAPI Architecture
+- Service-Oriented Backend Design
+- AI Response Stabilization
+- Structured JSON Validation
+- Retry & Fallback Mechanisms
+- Redis-based Caching
+- Resume Hashing for Deduplication
+- Semantic Role Matching
+- Vector Database Integration
+- Cloud-native Deployment
+- Modular API Design
 
 ---
 
-## 📌 Future Improvements
+## 🔮 Future Enhancements
 
-* Add GitHub Actions CI/CD
-* Add unit and integration tests
-* Add Docker production profile
-* Add centralized logging
-* Add API rate limiting middleware
-* Add authentication
-* Add user dashboard
-* Add resume version history
-* Add OpenTelemetry tracing
-* Add Prometheus + Grafana monitoring
-* Add complete RAG pipeline using Qdrant
-* Add model fallback chain
-* Add background queue for resume processing
+### Platform
+
+- Multi-Resume Comparison
+- Resume Version Tracking
+- Recruiter Dashboard
+- Candidate Benchmarking
+
+### AI
+
+- RAG-based Career Guidance
+- Multi-Model Inference
+- Interview Simulation Engine
+- Adaptive Learning Paths
+
+### Infrastructure
+
+- GitHub Actions CI/CD
+- Prometheus Monitoring
+- Grafana Dashboards
+- OpenTelemetry Tracing
+- Kubernetes Deployment
+- Distributed Caching
 
 ---
 
 ## 📄 License
 
-This project is intended for educational, portfolio, and engineering demonstration purposes.
+This project is intended for educational, research, and portfolio purposes.
+
+---
+
+## 👨‍💻 Author
+
+**Prabath D**
+
+- LinkedIn: https://linkedin.com/in/your-profile
+- GitHub: https://github.com/prabath-ux05
