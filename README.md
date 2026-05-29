@@ -229,12 +229,11 @@ DELETE /api/v1/chat/history
 
 ## 🖼️ Screenshots
 
-Screenshots are stored inside the `docs/` folder.
 
 ### 🏠 Dashboard
 
 
-docs/dashboard.png
+Resume-AI-Analyzer/docs/dashboard.png
 
 
 ### 📄 Resume Analysis
