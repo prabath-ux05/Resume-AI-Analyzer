@@ -488,5 +488,4 @@ This project is intended for educational, research, and portfolio purposes.
 
 **Prabath D**
 
-- LinkedIn: https://linkedin.com/in/your-profile
-- GitHub: https://github.com/prabath-ux05
+
