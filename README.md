@@ -249,7 +249,7 @@ DELETE /api/v1/chat/history
 
 ### 💬 Career Assistant
 
-![Career Assistant](docs/career-assistant.png)
+![Career Assistant](docs/career-guidance.png)
 
 ---
 
