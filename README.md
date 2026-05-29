@@ -233,27 +233,26 @@ Screenshots are stored inside the `docs/` folder.
 
 ### 🏠 Dashboard
 
-```text
+
 docs/dashboard.png
-```
+
 
 ### 📄 Resume Analysis
 
-```text
+
 docs/resume-analysis.png
-```
+
 
 ### 🎯 Role Matching
 
-```text
+
 docs/role-matching.png
-```
+
 
 ### 💬 Career Assistant
 
-```text
+
 docs/career-assistant.png
-```
 
 ---
 
