@@ -48,50 +48,47 @@ FastAPI Backend
 
 ---
 
-## ⚙️ Tech Stack
+<details>
+<summary><h2>⚙️ Tech Stack</h2></summary>
 
 ### 🎨 Frontend
-
-* React.js
-* Vite
-* Tailwind CSS
-* Framer Motion
-* Axios
-* React Router
-* Recharts
+- React.js
+- Vite
+- Tailwind CSS
+- Framer Motion
+- Axios
+- React Router
+- Recharts
 
 ### 🧩 Backend
-
-* FastAPI
-* Python
-* Async APIs
-* Pydantic validation
-* SQLAlchemy
-* PyMuPDF
-* python-docx
+- FastAPI
+- Python
+- Async APIs
+- Pydantic
+- SQLAlchemy
+- PyMuPDF
+- python-docx
 
 ### 🤖 AI & NLP
-
-* Groq API
-* Llama 3.1 8B Instant
-* Prompt engineering
-* Resume semantic analysis
-* Structured JSON extraction
-* AI response sanitization
+- Groq API
+- Llama 3.1 8B Instant
+- Prompt Engineering
+- Resume Semantic Analysis
+- Structured JSON Extraction
 
 ### 🗄️ Database & Infrastructure
+- Supabase PostgreSQL
+- Redis Cache
+- Qdrant Vector Database
+- SHA256 Resume Hashing
+- Docker Compose
 
-* Supabase PostgreSQL
-* Redis cache
-* Qdrant vector database
-* SHA256 resume hashing
-* Docker Compose
+### ☁️ Cloud & Deployment
+- Vercel
+- Render
+- UptimeRobot
 
-### ☁️ Deployment
-
-* Vercel for frontend
-* Render for backend
-* UptimeRobot for backend monitoring
+</details>
 
 ---
 
@@ -155,7 +152,8 @@ Qdrant is configured as the vector database layer for future semantic retrieval 
 
 ---
 
-## 🧱 Repository Structure
+<details>
+<summary><h2>📁 Project Folder Structure</h2></summary>
 
 ```text
 Resume-AI-Platform/
@@ -201,7 +199,6 @@ Resume-AI-Platform/
 ├── vercel.json
 └── README.md
 ```
-
 ---
 
 ## 🔌 API Architecture
