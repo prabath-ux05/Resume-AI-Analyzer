@@ -32,7 +32,7 @@ Unlike traditional resume scanners that rely solely on keyword matching, AscendA
 <p align="center">
   <strong>Click the preview image to watch the complete AscendAI demonstration.</strong>
 </p>
----
+
 
 ## ✨ Core Features
 
