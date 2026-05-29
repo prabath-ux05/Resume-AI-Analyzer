@@ -229,29 +229,27 @@ DELETE /api/v1/chat/history
 
 ## 🖼️ Screenshots
 
-
 ### 🏠 Dashboard
 
+![Dashboard](docs/dashboard.png)
 
-Resume-AI-Analyzer/docs/dashboard.png
-
+---
 
 ### 📄 Resume Analysis
 
+![Resume Analysis](docs/resume-analysis.png)
 
-docs/resume-analysis.png
-
+---
 
 ### 🎯 Role Matching
 
+![Role Matching](docs/role-matching.png)
 
-docs/role-matching.png
-
+---
 
 ### 💬 Career Assistant
 
-
-docs/career-assistant.png
+![Career Assistant](docs/career-assistant.png)
 
 ---
 
