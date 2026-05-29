@@ -330,19 +330,7 @@ Redis is used to reduce repeated AI processing and improve response performance.
 Qdrant serves as the semantic retrieval infrastructure.
 
 ```text
-Resume Content
-      │
-      ▼
-Embedding Generation
-      │
-      ▼
-Vector Storage
-      │
-      ▼
-Similarity Search
-      │
-      ▼
-Role Matching
+Resume Content → Embedding Generation → Vector Storage → Similarity Search → Role Matching
 ```
 
 ### Benefits
