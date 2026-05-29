@@ -422,19 +422,19 @@ docs/screenshots/role-matching.png
 Frontend
 
 ```text
-https://your-vercel-url.vercel.app
+https://resume-ai-analyzer-two.vercel.app/
 ```
 
 Backend
 
 ```text
-https://your-render-url.onrender.com
+https://resume-ai-analyzer-9.onrender.com
 ```
 
 API Docs
 
 ```text
-https://your-render-url.onrender.com/docs
+https://resume-ai-analyzer-9.onrender.com/docs
 ```
 
 ---
