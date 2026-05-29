@@ -200,6 +200,7 @@ Resume-AI-Platform/
 └── README.md
 ```
 ---
+---
 
 ## 🔌 API Architecture
 
