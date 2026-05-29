@@ -1,344 +1,484 @@
-# AscendAI 🚀
+# AscendAI
 
-### AI-Powered Resume Analysis & Career Guidance Platform
+### Resume Intelligence & Career Guidance Platform
 
-Elevora AI is a full-stack AI-driven resume intelligence platform that helps candidates analyze resumes, improve ATS performance, discover best-fit technical roles, and receive personalized AI-powered career guidance.
-
-The platform combines:
-
-* Generative AI
-* Resume Intelligence
-* ATS Analysis
-* Role Matching
-* AI Career Assistant
-* Cloud Deployment
-
-to simulate a modern AI recruitment ecosystem.
+![Python](https://img.shields.io/badge/Python-3.11+-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
+![React](https://img.shields.io/badge/React-Frontend-61DAFB)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-blue)
+![Redis](https://img.shields.io/badge/Redis-Cache-red)
+![Qdrant](https://img.shields.io/badge/Qdrant-VectorDB-purple)
+![Vercel](https://img.shields.io/badge/Vercel-Frontend-black)
+![Render](https://img.shields.io/badge/Render-Backend-46E3B7)
 
 ---
 
-# 🎥 Demo Video
+## Overview
 
-Project Demo Video:
+AscendAI is a production-oriented resume intelligence platform designed to provide structured resume analysis, ATS diagnostics, semantic role matching, recruiter-style feedback, and AI-driven career guidance.
 
-[Watch Demo Video](https://drive.google.com/file/d/1XCcLUeaCTMuE9guhqpMFTcCroiYc9brG/view?usp=drive_link)
+The platform combines modern AI orchestration techniques, vector retrieval systems, structured LLM pipelines, caching strategies, and cloud-native deployment practices to deliver reliable and scalable resume intelligence workflows.
+
+Rather than functioning as a simple resume scanner, AscendAI focuses on transforming unstructured resume documents into actionable career insights through semantic analysis, intelligent role matching, and conversational guidance.
 
 ---
 
-## 🌐 Live Demo
+## Core Capabilities
 
-Frontend:
+### Resume Intelligence
 
-```bash
-https://resume-ai-analyzer-two.vercel.app
+* ATS score generation
+* Resume quality assessment
+* Skill extraction
+* Experience evaluation
+* Recruiter-style diagnostics
+* Resume improvement recommendations
+
+### AI Career Guidance
+
+* Resume-aware AI assistant
+* Career pathway recommendations
+* Skill gap identification
+* Interview preparation guidance
+* Learning roadmap generation
+
+### Semantic Role Matching
+
+* Embedding-based role similarity
+* Resume-to-role alignment scoring
+* Career suitability analysis
+* Role recommendation engine
+
+### Infrastructure Features
+
+* Redis-based response caching
+* Vector retrieval pipeline
+* AI response stabilization
+* Structured JSON enforcement
+* Retry and fallback mechanisms
+* Cloud-native deployment architecture
+
+---
+
+# System Architecture
+
+```text
+                        ┌──────────────────┐
+                        │    React UI      │
+                        │  Vite + Tailwind │
+                        └─────────┬────────┘
+                                  │
+                                  ▼
+                        ┌──────────────────┐
+                        │ FastAPI Backend  │
+                        │ API Gateway      │
+                        └───────┬──────────┘
+                                │
+           ┌────────────────────┼────────────────────┐
+           ▼                    ▼                    ▼
+
+ ┌────────────────┐  ┌────────────────┐  ┌────────────────┐
+ │ Redis Cache    │  │ AI Orchestrator│  │ PostgreSQL     │
+ │ Response Layer │  │ Llama 3.1      │  │ Resume Storage │
+ └────────────────┘  └────────────────┘  └────────────────┘
+                                │
+                                ▼
+
+                     ┌─────────────────────┐
+                     │ Qdrant Vector Store │
+                     │ Semantic Retrieval  │
+                     └─────────────────────┘
 ```
 
 ---
 
-# ✨ Features
+# Technical Workflow
 
-## 📄 AI Resume Analysis
-
-* Upload resumes in PDF format
-* Extract structured resume intelligence
-* Generate ATS scores
-* Analyze resume quality and recruiter perception
-
----
-
-## 🎯 AI Role Matching
-
-* Suggests best-fit roles
-* Generates role alignment scores
-* Company-fit recommendations
-* Industry-fit analysis
-
----
-
-## 🤖 AI Career Assistant
-
-Interactive AI chatbot for:
-
-* Resume guidance
-* Interview preparation
-* Skill gap analysis
-* Career roadmap suggestions
-* Technical doubt clarification
-
----
-
-## 📊 ATS Scoring System
-
-Evaluates:
-
-* Resume structure
-* Technical skills
-* Projects
-* Experience
-* ATS keywords
-* Education quality
-
----
-
-## 🧠 Intelligent Skill Extraction
-
-Detects:
-
-* Programming Languages
-* Frameworks
-* AI/ML Skills
-* Cloud Technologies
-* DevOps Tools
-* Databases
-
----
-
-## 📈 Improvement Roadmap
-
-Provides:
-
-* Missing keywords
-* Skill improvement suggestions
-* Recruiter keyword gaps
-* Learning roadmap
-* Career recommendations
-
----
-
-# 🏗️ Tech Stack
-
-## Frontend
-
-* React.js
-* Vite
-* Tailwind CSS
-* Axios
-* Framer Motion
-
-## Backend
-
-* FastAPI
-* Python
-* Async APIs
-
-## AI & NLP
-
-* Groq API
-* Llama 3.1 8B Instant
-* Prompt Engineering
-* Structured JSON Extraction
-* Resume Semantic Analysis
-
-## Database & Caching
-
-* Supabase PostgreSQL
-* Redis Cache
-* SHA256 Resume Hashing
-
-## Cloud & Deployment
-
-* Vercel (Frontend)
-* Render (Backend)
-* UptimeRobot (Keep Alive Monitoring)
-
-## Additional Tools
-
-* Qdrant Vector DB
-* PyMuPDF
-* Pydantic Validation
-
----
-
-# ⚙️ Architecture
-
-```bash
-User Upload Resume
-        ↓
-Frontend (Vercel)
-        ↓
-FastAPI Backend (Render)
-        ↓
-Resume Parsing + AI Orchestration
-        ↓
-Groq LLM Processing
-        ↓
-ATS + Role Match + AI Insights
-        ↓
-Redis Cache + PostgreSQL Storage
-        ↓
+```text
+Resume Upload
+      │
+      ▼
+Resume Parsing
+      │
+      ▼
+Data Normalization
+      │
+      ▼
+ATS Analysis Pipeline
+      │
+      ▼
+Semantic Feature Extraction
+      │
+      ▼
+Vector Embedding Generation
+      │
+      ▼
+Role Matching Engine
+      │
+      ▼
+AI Career Guidance Layer
+      │
+      ▼
+Structured Response Generation
+      │
+      ▼
 Frontend Visualization
 ```
 
 ---
 
-# 🚀 Key Engineering Highlights
+# ATS Analysis Pipeline
 
-## Production-Level AI Pipeline
+The ATS pipeline converts uploaded resumes into structured candidate profiles through a multi-stage processing workflow.
 
-* Structured AI orchestration
-* JSON sanitization
-* Schema validation
+### Pipeline Stages
+
+1. Resume ingestion
+2. Text extraction
+3. Data normalization
+4. Skill detection
+5. Experience evaluation
+6. ATS scoring
+7. Feedback generation
+
+Key objectives:
+
+* Detect missing keywords
+* Evaluate role alignment
+* Assess resume completeness
+* Generate recruiter-style recommendations
+
+---
+
+# Resume Semantic Analysis
+
+Traditional ATS systems primarily rely on keyword matching.
+
+AscendAI introduces semantic analysis capabilities by evaluating:
+
+* Technical skills
+* Project relevance
+* Experience context
+* Career trajectory
+* Domain alignment
+
+This enables deeper role matching beyond exact keyword occurrences.
+
+---
+
+# Vector Retrieval Pipeline
+
+Qdrant is used as the semantic retrieval layer.
+
+### Workflow
+
+```text
+Resume Content
+      │
+      ▼
+Embedding Generation
+      │
+      ▼
+Vector Storage
+      │
+      ▼
+Similarity Search
+      │
+      ▼
+Role Matching
+```
+
+Benefits:
+
+* Semantic search
+* Similar candidate profiling
+* Improved role recommendations
+* Reduced keyword dependency
+
+---
+
+# Redis Caching Strategy
+
+Redis is used to minimize repeated AI processing.
+
+### Cached Components
+
+* Resume analysis results
+* ATS scores
+* Role matching outputs
+* AI guidance responses
+
+### Benefits
+
+* Reduced latency
+* Lower API costs
+* Faster user experience
+* Increased system throughput
+
+---
+
+# AI Orchestration Layer
+
+The orchestration service manages all LLM interactions.
+
+### Responsibilities
+
+* Prompt construction
+* Schema enforcement
 * Retry handling
-* Safe fallback mechanisms
+* Response validation
+* JSON sanitization
+* Fallback execution
+
+### Reliability Features
+
+* Structured output validation
+* Parsing recovery logic
+* Hallucination reduction techniques
+* Error containment
 
 ---
 
-## Intelligent Resume Intelligence Engine
+# API Architecture
 
-Pipeline includes:
+```text
+Client
+  │
+  ▼
+FastAPI Router
+  │
+  ▼
+Service Layer
+  │
+  ▼
+AI Orchestrator
+  │
+  ▼
+Cache / Database / Vector Store
+```
 
-1. Resume Parsing
-2. Local Heuristic Extraction
-3. AI Intelligence Generation
-4. ATS Analysis
-5. Role Matching
-6. Career Guidance
+### Design Principles
 
----
-
-## Cloud-Native Deployment
-
-Successfully deployed:
-
-* Frontend on Vercel
-* Backend on Render
-* PostgreSQL via Supabase
-* Redis-based caching architecture
-
----
-
-## AI Assistant System
-
-* Resume-aware AI chatbot
-* Redis conversation memory
-* Streaming responses
-* Career guidance assistant
+* Separation of concerns
+* Async request handling
+* Schema-driven validation
+* Service-oriented architecture
 
 ---
 
-# 🛠️ Major Challenges Solved
+# Deployment Architecture
 
-* Migrated Gemini → Groq architecture
-* Fixed JSON parsing instability
-* Solved fallback scoring issues
-* Stabilized AI response formatting
-* Fixed Render sleep problems
-* Resolved production CORS issues
-* Implemented uptime monitoring
-* Improved frontend/backend API handling
+```text
+                     Internet
+                         │
+                         ▼
+
+                 ┌─────────────┐
+                 │   Vercel    │
+                 │ Frontend UI │
+                 └──────┬──────┘
+                        │
+                        ▼
+
+                 ┌─────────────┐
+                 │   Render    │
+                 │ FastAPI API │
+                 └──────┬──────┘
+                        │
+      ┌─────────────────┼─────────────────┐
+      ▼                 ▼                 ▼
+
+ PostgreSQL        Redis Cache      Qdrant DB
+  Supabase
+
+```
+
+### Monitoring
+
+* UptimeRobot health checks
+* Endpoint monitoring
+* Availability tracking
 
 ---
 
-# 📌 Future Improvements
+# Engineering Highlights
 
-* Voice-enabled AI assistant
-* Real-time mock interviews
-* PDF report generation
-* Multi-language resume support
-* Job portal integration
-* Advanced analytics dashboard
+### Backend Engineering
+
+* Async FastAPI architecture
+* Typed request validation
+* Service-layer abstraction
+* Error isolation
+
+### AI Engineering
+
+* Structured JSON generation
+* Prompt orchestration
+* Semantic analysis pipeline
+* Response stabilization
+
+### Infrastructure Engineering
+
+* Redis caching
+* Vector retrieval systems
+* Cloud-native deployment
+* Health monitoring
+
+### Reliability Engineering
+
+* Retry mechanisms
+* Fallback workflows
+* Response validation
+* Failure recovery
 
 ---
 
-# 🧪 Installation
+# Installation
 
 ## Clone Repository
 
 ```bash
-git clone <your-repo-url>
-cd elevora-ai
+git clone https://github.com/yourusername/ascendai.git
+
+cd ascendai
 ```
 
----
-
-## Frontend Setup
+## Frontend
 
 ```bash
 cd frontend
+
 npm install
+
 npm run dev
 ```
 
----
-
-## Backend Setup
+## Backend
 
 ```bash
 cd backend
+
 pip install -r requirements.txt
+
 uvicorn main:app --reload
 ```
 
 ---
 
-# 🔑 Environment Variables
+# Environment Variables
 
-## Frontend `.env`
-
-```env
-VITE_API_URL=https://your-render-backend.onrender.com
-```
-
----
-
-## Backend `.env`
+## Backend
 
 ```env
-GROQ_API_KEY=your_groq_api_key
-SUPABASE_URL=your_supabase_url
-SUPABASE_KEY=your_supabase_key
-REDIS_URL=your_redis_url
+GROQ_API_KEY=
+
+SUPABASE_URL=
+SUPABASE_KEY=
+
+REDIS_URL=
+
+QDRANT_URL=
+QDRANT_API_KEY=
+```
+
+## Frontend
+
+```env
+VITE_API_BASE_URL=
 ```
 
 ---
 
-# 📷 Screenshots
+# Screenshots
 
-Add:
+## Dashboard
 
-* Homepage Screenshot
-* Resume Upload
-* ATS Dashboard
-* Role Match Results
-* AI Assistant Chat
-* Analytics Visualization
+```text
+docs/screenshots/dashboard.png
+```
 
----
+## Resume Analysis
 
-# 🎥 Demo Video
+```text
+docs/screenshots/resume-analysis.png
+```
 
-Add your project demo video link here.
+## AI Career Guidance
 
-Example:
+```text
+docs/screenshots/career-guidance.png
+```
 
-```bash
-https://youtu.be/your-demo-video
+## Role Matching
+
+```text
+docs/screenshots/role-matching.png
 ```
 
 ---
 
-# 👨‍💻 Author
+# Demo
 
-### Prabath D
+Frontend
 
-AI/ML Engineer | Full Stack Developer | Cloud Enthusiast
+```text
+https://your-vercel-url.vercel.app
+```
 
-* LinkedIn
-* GitHub
+Backend
+
+```text
+https://your-render-url.onrender.com
+```
+
+API Docs
+
+```text
+https://your-render-url.onrender.com/docs
+```
 
 ---
 
-# ⭐ Project Outcome
+# Future Enhancements
 
-Elevora AI demonstrates:
+### Platform
 
-* Full Stack Development
-* AI Engineering
-* Generative AI Integration
-* Cloud Deployment
-* Production Debugging
-* Resume Intelligence Systems
-* Real-Time AI Applications
-* Scalable Backend Architecture
+* Multi-resume comparison
+* Candidate benchmarking
+* Recruiter analytics dashboard
+* Resume version tracking
 
-Built as a production-style AI recruitment and career guidance platform using modern software engineering and cloud-native AI practices.
+### AI
+
+* RAG-based career guidance
+* Multi-model inference support
+* Interview simulation engine
+* Adaptive learning pathways
+
+### Infrastructure
+
+* Docker deployment
+* Kubernetes orchestration
+* CI/CD pipelines
+* Observability stack
+* Distributed caching
+
+---
+
+# Documentation
+
+Additional technical documentation is available under:
+
+```text
+docs/
+├── architecture/
+├── workflows/
+├── api/
+└── deployment/
+```
+
+---
+
+# License
+
+MIT License
