@@ -21,6 +21,18 @@ The platform transforms unstructured resume documents into structured intelligen
 Unlike traditional resume scanners that rely solely on keyword matching, AscendAI combines semantic analysis, role suitability assessment, recruiter-style feedback, and conversational career guidance to help candidates improve employability and interview readiness.
 
 ---
+## 🎥 Demo Video
+
+<p align="center">
+  <a href="https://drive.google.com/file/d/1XCcLUeaCTMuE9guhqpMFTcCroiYc9brG/view?usp=drive_link">
+    <img src="docs/dashboard.png" width="900">
+  </a>
+</p>
+
+<p align="center">
+  <strong>Click the preview image to watch the complete AscendAI demonstration.</strong>
+</p>
+---
 
 ## ✨ Core Features
 
